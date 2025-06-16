@@ -5,12 +5,12 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Dependencias del sistema necesarias para reportlab, xhtml2pdf, pandas, etc.
+# Dependencias del sistema necesarias
 RUN apt-get update && apt-get install -y \
     gcc \
+    pkg-config \
     libffi-dev \
     libpq-dev \
-    freetype-dev \
     libfreetype6-dev \
     libjpeg-dev \
     zlib1g-dev \
@@ -19,18 +19,18 @@ RUN apt-get update && apt-get install -y \
     liblapack-dev \
     libatlas-base-dev \
     libpng-dev \
-    libart-lgpl-dev \
-    && rm -rf /var/lib/apt/lists/*
+    libart-2.0-dev \
+  && rm -rf /var/lib/apt/lists/*
 
 # Crear el directorio de trabajo
 WORKDIR /app
 
-# Copiar todos los archivos del proyecto al contenedor
+# Copiar todo
 COPY . .
 
 # Instalar dependencias de Python
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Comando para iniciar Gunicorn en Render
+# Iniciar con Gunicorn
 CMD ["gunicorn", "wsgi:app", "--bind", "0.0.0.0:10000"]
