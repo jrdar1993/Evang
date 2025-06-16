@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background-color: #343a40; color: white; position: fixed; height: 100vh; padding-top: 20px; }
+        .sidebar a { color: white; text-decoration: none; display: block; padding: 10px 20px; }
+        .sidebar a:hover { background-color: #495057; }
+        .content { margin-left: 250px; padding: 20px; width: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h4 class="text-center mb-4">Menu</h4>
+    <a href="{{ url_for('home') }}">Inicio</a>
+    <!-- <a href="{{ url_for('tipo_validacion.index') }}">Tipo Validación</a> -->
+    <!-- <a href="{{ url_for('lugar_conversion.index') }}">Lugar Conversión</a> -->
+    <a href="{{ url_for('convertido.index') }}">Convertido</a>
+</div>
+
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

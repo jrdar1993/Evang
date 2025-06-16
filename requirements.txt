@@ -1,0 +1,9 @@
+flask
+flask_sqlalchemy
+psycopg2-binary
+Flask==2.2.5
+Flask-SQLAlchemy==2.5.1
+psycopg2-binary==2.9.3
+pandas==1.5.3
+XlsxWriter==3.0.7
+xhtml2pdf==0.2.11

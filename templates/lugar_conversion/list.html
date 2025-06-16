@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Lugar Conversión</h1>
+    <a href="{{ url_for('lugar_conversion.nuevo') }}" class="btn btn-primary mb-3">Nuevo</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reg in registros %}
+            <tr>
+                <td>{{ reg.id }}</td>
+                <td>{{ reg.descripcion }}</td>
+                <td>{{ reg.fecha_sistemas.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>
+                    <a href="{{ url_for('lugar_conversion.editar', id=reg.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{{ url_for('lugar_conversion.eliminar', id=reg.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
