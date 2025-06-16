@@ -1,10 +1,11 @@
 # Imagen base oficial de Python 3.12
 FROM python:3.12-slim
 
+# Evitar que Python genere .pyc y usar salida sin buffering
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# 1️⃣ Instalamos build-essential (incluye gcc/g++/make), Python headers y librerías de sistema
+# Instalar compiladores, cabeceras de Python y librerías nativas
 RUN apt-get update && apt-get install -y \
     build-essential \
     python3-dev \
@@ -21,12 +22,15 @@ RUN apt-get update && apt-get install -y \
     libart-2.0-dev \
   && rm -rf /var/lib/apt/lists/*
 
+# Directorio de trabajo en el contenedor
 WORKDIR /app
+
+# Copiar todo el proyecto
 COPY . .
 
-# 2️⃣ Instalamos las deps de Python
+# Actualizar pip e instalar dependencias de Python
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# 3️⃣ Arrancamos con Gunicorn
-CMD ["gunicorn", "wsgi:app", "--bind", "0.0.0.0:10000"]
+# Iniciar con Gunicorn, ligando al puerto que Render asigne
+CMD ["sh", "-c", "gunicorn wsgi:app --bind 0.0.0.0:${PORT}"]
