@@ -12,13 +12,12 @@ convertido_bp = Blueprint("convertido", __name__, url_prefix="/convertido")
 
 @convertido_bp.route("/", methods=["GET"])
 def index():
-    # Filtros recibidos desde el formulario
     nombre = request.args.get("nombre", "").strip()
     contacto = request.args.get("contacto", "").strip()
     fecha_inicio = request.args.get("fecha_inicio", "").strip()
     fecha_fin = request.args.get("fecha_fin", "").strip()
 
-    query = Convertido.query
+    query = Convertido.query.join(TipoValidacion)
 
     if nombre:
         query = query.filter(
@@ -53,16 +52,11 @@ def nuevo():
         edad = int(request.form['edad'])
         contacto = request.form['contacto'].strip()
         domicilio = request.form['domicilio'].strip()
-        invito = request.form['invito'].strip()
-        if not invito:
-            invito = 'N/A'
+        invito = request.form['invito'].strip() or 'N/A'
         id_validacion = int(request.form['id_validacion'])
         id_lugar = int(request.form['id_lugar'])
 
-        if request.form.get("usar_fecha_actual"):
-            fecha_conversion = datetime.now().date()
-        else:
-            fecha_conversion = datetime.strptime(request.form["fecha_conversion"], "%Y-%m-%d").date()
+        fecha_conversion = datetime.now().date() if request.form.get("usar_fecha_actual") else datetime.strptime(request.form["fecha_conversion"], "%Y-%m-%d").date()
 
         nuevo_registro = Convertido(
             nombres=nombres, apellidos=apellidos, edad=edad, contacto=contacto,
@@ -90,11 +84,7 @@ def editar(id):
         registro.invito = request.form["invito"]
         registro.id_validacion = request.form["id_validacion"]
         registro.id_lugar = request.form["id_lugar"]
-
-        if request.form.get("usar_fecha_actual"):
-            registro.fecha_conversion = datetime.now().date()
-        else:
-            registro.fecha_conversion = datetime.strptime(request.form["fecha_conversion"], "%Y-%m-%d").date()
+        registro.fecha_conversion = datetime.now().date() if request.form.get("usar_fecha_actual") else datetime.strptime(request.form["fecha_conversion"], "%Y-%m-%d").date()
 
         db.session.commit()
         return redirect(url_for("convertido.index"))
@@ -110,7 +100,7 @@ def eliminar(id):
 
 @convertido_bp.route("/export_excel")
 def export_excel():
-    query = Convertido.query
+    query = Convertido.query.join(TipoValidacion)
 
     nombre = request.args.get("nombre", "").strip()
     contacto = request.args.get("contacto", "").strip()
@@ -140,6 +130,7 @@ def export_excel():
         'Contacto': r.contacto,
         'Domicilio': r.domicilio,
         'Invito': r.invito,
+        'Tipo Validación': r.tipo_validacion.descripcion,
         'Fecha Conversión': r.fecha_conversion.strftime("%Y-%m-%d")
     } for r in registros]
 
@@ -152,7 +143,7 @@ def export_excel():
 
 @convertido_bp.route("/export_pdf")
 def export_pdf():
-    query = Convertido.query
+    query = Convertido.query.join(TipoValidacion)
 
     nombre = request.args.get("nombre", "").strip()
     contacto = request.args.get("contacto", "").strip()
