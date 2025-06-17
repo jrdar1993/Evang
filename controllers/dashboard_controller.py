@@ -29,6 +29,8 @@ def dashboard():
         params['fecha_fin'] = fecha_fin
 
     totales = db.session.execute(query_totales, params).fetchone()
+    if not totales:
+    totales = {'total_aceptados': 0, 'total_reconciliados': 0}
 
     # CONSULTA PARA LA GRÁFICA (AGRUPADO POR FECHA)
     query_grafica = """
