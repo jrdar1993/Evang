@@ -1,5 +1,6 @@
 from app import db
 from datetime import datetime
+from models.tipo_validacion import TipoValidacion
 
 class Convertido(db.Model):
     __tablename__ = 'convertido'
@@ -14,3 +15,4 @@ class Convertido(db.Model):
     id_lugar = db.Column(db.Integer, db.ForeignKey('lugarconversion.id_lugar'), nullable=False)
     fecha_conversion = db.Column(db.Date, nullable=False)
     fecha_sistemas = db.Column(db.DateTime, default=datetime.utcnow)
+    tipo_validacion = db.relationship('TipoValidacion', backref='convertidos')
