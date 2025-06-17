@@ -5,7 +5,7 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Instalar compiladores, Python headers y librerías nativas
+# Instalar compiladores y librerías necesarias
 RUN apt-get update && apt-get install -y \
     build-essential \
     python3-dev \
@@ -25,13 +25,19 @@ RUN apt-get update && apt-get install -y \
 # Directorio de trabajo
 WORKDIR /app
 
-# Copiar todo el proyecto
-COPY . .
+# Primero copiamos solo requirements para cache correcto
+COPY requirements.txt .
 
-# Actualizar pip e instalar dependencias
+# Instalamos dependencias primero (mejor para el cache de Docker)
 RUN pip install --upgrade pip
 RUN pip install gunicorn
 RUN pip install -r requirements.txt
 
-# Arrancar con Gunicorn en el puerto que Render asigne
-CMD ["sh", "-c", "gunicorn wsgi:app --bind 0.0.0.0:${PORT}"]
+# Luego copiamos el resto de los archivos
+COPY . .
+
+# Definimos el puerto por defecto 10000 (Render usa este)
+ENV PORT 10000
+
+# Comando de arranque de Gunicorn
+CMD ["gunicorn", "wsgi:app", "--bind", "0.0.0.0:10000"]
