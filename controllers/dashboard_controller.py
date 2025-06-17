@@ -57,8 +57,8 @@ def dashboard():
 
     for row in grafica_result:
         fechas.append(row.fecha_conversion.strftime('%Y-%m-%d'))
-        aceptados.append(row.aceptados)
-        reconciliados.append(row.reconciliados)
+        aceptados.append(int(row.aceptados or 0))
+        reconciliados.append(int(row.reconciliados or 0))
 
     chart_data = {
         'fechas': fechas,
