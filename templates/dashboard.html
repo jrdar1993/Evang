@@ -25,7 +25,7 @@
             <div class="card border-0 shadow-lg rounded-4 bg-gradient" style="background: linear-gradient(135deg, #28a745, #218838); color: white;">
                 <div class="card-body py-4">
                     <h4 class="card-title fw-bold mb-2">Total Aceptaron</h4>
-                    <h1 class="display-2">{{ totales.total_aceptados or 0 }}</h1>
+                    <h1 class="display-2">{{ totales.total_aceptados if totales and totales.total_aceptados is not none else 0 }}</h1>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
             <div class="card border-0 shadow-lg rounded-4 bg-gradient" style="background: linear-gradient(135deg, #007bff, #0056b3); color: white;">
                 <div class="card-body py-4">
                     <h4 class="card-title fw-bold mb-2">Total Reconciliados</h4>
-                    <h1 class="display-2">{{ totales.total_reconciliados or 0 }}</h1>
+                    <h1 class="display-2">{{ totales.total_reconciliados if totales and totales.total_reconciliados is not none else 0 }}</h1>
                 </div>
             </div>
         </div>
