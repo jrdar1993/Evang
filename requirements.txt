@@ -1,6 +1,6 @@
-flask
-flask_sqlalchemy
-psycopg2-binary
+# Usar SQLAlchemy 1.4.x (compatible con Flask-SQLAlchemy 2.5.1)
+SQLAlchemy<2.0
+
 Flask==2.2.5
 Flask-SQLAlchemy==2.5.1
 psycopg2-binary==2.9.3
