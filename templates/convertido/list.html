@@ -36,32 +36,34 @@
     <!-- Tabla de registros -->
     <table class="table table-striped table-hover">
         <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Nombre Completo</th>
-                <th>Edad</th>
-                <th>Contacto</th>
-                <th>Invitó</th>
-                <th>Fecha Conversión</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for reg in registros %}
-            <tr>
-                <td>{{ reg.id }}</td>
-                <td>{{ reg.nombres }} {{ reg.apellidos }}</td>
-                <td>{{ reg.edad }}</td>
-                <td>{{ reg.contacto }}</td>
-                <td>{{ reg.invito }}</td>
-                <td>{{ reg.fecha_conversion.strftime('%d/%m/%Y') }}</td>
-                <td>
-                    <a href="{{ url_for('convertido.editar', id=reg.id) }}" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="{{ url_for('convertido.eliminar', id=reg.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar?')">Eliminar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+    <tr>
+        <th>ID</th>
+        <th>Nombre Completo</th>
+        <th>Edad</th>
+        <th>Contacto</th>
+        <th>Invitó</th>
+        <th>Tipo Validación</th>
+        <th>Fecha Conversión</th>
+        <th>Acciones</th>
+    </tr>
+</thead>
+<tbody>
+    {% for reg in registros %}
+    <tr>
+        <td>{{ reg.id }}</td>
+        <td>{{ reg.nombres }} {{ reg.apellidos }}</td>
+        <td>{{ reg.edad }}</td>
+        <td>{{ reg.contacto }}</td>
+        <td>{{ reg.invito }}</td>
+        <td>{{ reg.tipo_validacion.descripcion }}</td>
+        <td>{{ reg.fecha_conversion.strftime('%d/%m/%Y') }}</td>
+        <td>
+            <a href="{{ url_for('convertido.editar', id=reg.id) }}" class="btn btn-warning btn-sm">Editar</a>
+            <a href="{{ url_for('convertido.eliminar', id=reg.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar?')">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
     </table>
 
     <!-- Paginación -->
