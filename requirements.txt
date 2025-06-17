@@ -6,7 +6,7 @@ SQLAlchemy<2.0
 
 Flask==2.2.5
 Flask-SQLAlchemy==2.5.1
-psycopg2-binary==2.9.3
+#psycopg2-binary==2.9.3
 
 # Tu stack de datos y PDF
 pandas==1.5.3
