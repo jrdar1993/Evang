@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from config import Config
 
+
 db = SQLAlchemy()
 
 def create_app():
@@ -31,10 +32,15 @@ def create_app():
     from controllers.tipo_validacion_controller import tipo_validacion_bp
     from controllers.lugar_conversion_controller import lugar_conversion_bp
     from controllers.convertido_controller import convertido_bp
+    from controllers.dashboard_controller import dashboard_bp
+
 
     app.register_blueprint(tipo_validacion_bp)
     app.register_blueprint(lugar_conversion_bp)
     app.register_blueprint(convertido_bp)
+    app.register_blueprint(dashboard_bp)
+    
+    
 
     @app.route("/")
     def home():
@@ -43,5 +49,5 @@ def create_app():
     return app
 
 if __name__ == "__main__":
-    app = create_app()
+    app = create_app()   
     app.run(debug=True)
