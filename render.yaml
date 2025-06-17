@@ -6,4 +6,7 @@ services:
     region: oregon
     branch: main
     dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql+pg8000://postgres:cantares2025.@db.zwmizphrwirvggmbkumm.supabase.co:5432/postgres
     autoDeploy: true
