@@ -2,89 +2,41 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Dashboard de Convertidos</h1>
+    <h1 class="mb-4 text-center fw-bold">Dashboard de Convertidos</h1>
 
     <!-- FILTRO POR FECHAS -->
-    <form method="get" class="row g-3 mb-4">
-        <div class="col-md-4">
+    <form method="get" class="row g-3 mb-5 justify-content-center">
+        <div class="col-md-3">
             <label for="fecha_inicio" class="form-label">Fecha inicio:</label>
-            <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="{{ fecha_inicio }}">
+            <input type="date" class="form-control shadow-sm" name="fecha_inicio" id="fecha_inicio" value="{{ fecha_inicio }}">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label for="fecha_fin" class="form-label">Fecha fin:</label>
-            <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="{{ fecha_fin }}">
+            <input type="date" class="form-control shadow-sm" name="fecha_fin" id="fecha_fin" value="{{ fecha_fin }}">
         </div>
-        <div class="col-md-4 align-self-end">
-            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        <div class="col-md-2 align-self-end">
+            <button type="submit" class="btn btn-primary w-100 shadow-sm">Filtrar</button>
         </div>
     </form>
 
-    <!-- CARDS DE TOTALES -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card text-white bg-success mb-3 shadow-sm">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Total Aceptaron</h5>
-                    <h2 class="display-4">{{ totales.total_aceptados or 0 }}</h2>
+    <!-- CARDS MODERNOS -->
+    <div class="row text-center">
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-lg rounded-4 bg-gradient" style="background: linear-gradient(135deg, #28a745, #218838); color: white;">
+                <div class="card-body py-4">
+                    <h4 class="card-title fw-bold mb-2">Total Aceptaron</h4>
+                    <h1 class="display-2">{{ totales.total_aceptados or 0 }}</h1>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card text-white bg-primary mb-3 shadow-sm">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Total Reconciliados</h5>
-                    <h2 class="display-4">{{ totales.total_reconciliados or 0 }}</h2>
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-lg rounded-4 bg-gradient" style="background: linear-gradient(135deg, #007bff, #0056b3); color: white;">
+                <div class="card-body py-4">
+                    <h4 class="card-title fw-bold mb-2">Total Reconciliados</h4>
+                    <h1 class="display-2">{{ totales.total_reconciliados or 0 }}</h1>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- GRÁFICA DE EVOLUCIÓN -->
-    <div class="card shadow-sm mb-5">
-        <div class="card-body">
-            <h5 class="card-title mb-4 text-center">Evolución por Fecha</h5>
-            <canvas id="evolucionChart" height="100"></canvas>
         </div>
     </div>
 </div>
-
-<!-- CHART JS -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const fechas = {{ chart_data.fechas|tojson }};
-    const aceptados = {{ chart_data.aceptados|tojson }};
-    const reconciliados = {{ chart_data.reconciliados|tojson }};
-
-    const ctx = document.getElementById('evolucionChart').getContext('2d');
-    const chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: fechas,
-            datasets: [
-                {
-                    label: 'Aceptados',
-                    data: aceptados,
-                    borderColor: 'green',
-                    tension: 0.3,
-                    fill: false
-                },
-                {
-                    label: 'Reconciliados',
-                    data: reconciliados,
-                    borderColor: 'blue',
-                    tension: 0.3,
-                    fill: false
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top'
-                }
-            }
-        }
-    });
-</script>
 {% endblock %}
