@@ -12,8 +12,8 @@ def dashboard():
     # CONSULTA DE TOTALES
     query_totales = """
         SELECT
-            SUM(CASE WHEN tv.descripcion = 'ACEPTADO' THEN 1 ELSE 0 END) AS total_aceptados,
-            SUM(CASE WHEN tv.descripcion = 'RECONCILIADO' THEN 1 ELSE 0 END) AS total_reconciliados
+            SUM(CASE WHEN LOWER(tv.descripcion) LIKE 'acepto%' THEN 1 ELSE 0 END) AS total_aceptados,
+            SUM(CASE WHEN LOWER(tv.descripcion) LIKE 'reconcilio%' THEN 1 ELSE 0 END) AS total_reconciliados
         FROM convertido c
         JOIN tipovalidacion tv ON c.id_validacion = tv.id_validacion
         WHERE 1=1
