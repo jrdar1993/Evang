@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
 from app import db
+from datetime import datetime
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
@@ -8,11 +9,11 @@ def dashboard():
     fecha_inicio = request.args.get('fecha_inicio')
     fecha_fin = request.args.get('fecha_fin')
 
+    # CONSULTA DE TOTALES
     query_totales = """
         SELECT
-            SUM(CASE WHEN LOWER(tv.descripcion) LIKE 'acepto%' THEN 1 ELSE 0 END) AS total_aceptados,
-            SUM(CASE WHEN LOWER(tv.descripcion) LIKE 'reconcilio%' THEN 1 ELSE 0 END) AS total_reconciliados
-
+            SUM(CASE WHEN tv.descripcion = 'ACEPTADO' THEN 1 ELSE 0 END) AS total_aceptados,
+            SUM(CASE WHEN tv.descripcion = 'RECONCILIADO' THEN 1 ELSE 0 END) AS total_reconciliados
         FROM convertido c
         JOIN tipovalidacion tv ON c.id_validacion = tv.id_validacion
         WHERE 1=1
@@ -29,12 +30,12 @@ def dashboard():
 
     totales = db.session.execute(query_totales, params).fetchone()
 
+    # CONSULTA PARA LA GRÁFICA (AGRUPADO POR FECHA)
     query_grafica = """
         SELECT
             c.fecha_conversion,
-            SUM(CASE WHEN LOWER(tv.descripcion) LIKE 'acepto%' THEN 1 ELSE 0 END) AS total_aceptados,
-            SUM(CASE WHEN LOWER(tv.descripcion) LIKE 'reconcilio%' THEN 1 ELSE 0 END) AS total_reconciliados
-
+            SUM(CASE WHEN tv.descripcion = 'ACEPTADO' THEN 1 ELSE 0 END) AS aceptados,
+            SUM(CASE WHEN tv.descripcion = 'RECONCILIADO' THEN 1 ELSE 0 END) AS reconciliados
         FROM convertido c
         JOIN tipovalidacion tv ON c.id_validacion = tv.id_validacion
         WHERE 1=1
