@@ -33,12 +33,16 @@ def create_app():
     from controllers.lugar_conversion_controller import lugar_conversion_bp
     from controllers.convertido_controller import convertido_bp
     from controllers.dashboard_controller import dashboard_bp
+    from controllers.health_controller import health_bp
+
 
 
     app.register_blueprint(tipo_validacion_bp)
     app.register_blueprint(lugar_conversion_bp)
     app.register_blueprint(convertido_bp)
     app.register_blueprint(dashboard_bp)
+    app.register_blueprint(health_bp)
+
     
     
 
