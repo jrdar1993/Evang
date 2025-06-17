@@ -1,20 +1,13 @@
-# Compatibilidad C-API: numpy 1.x para pandas 1.5.x
-numpy<2.0
-
-# Usar SQLAlchemy 1.4.x (compatible con Flask-SQLAlchemy 2.5.1)
-SQLAlchemy<2.0
-
 Flask==2.2.5
 Flask-SQLAlchemy==2.5.1
-#psycopg2-binary==2.9.3
+SQLAlchemy<2.0
 
-# Tu stack de datos y PDF
+numpy<2.0
 pandas==1.5.3
 XlsxWriter==3.0.7
 xhtml2pdf==0.2.11
 reportlab==3.6.13
 svglib==1.5.1
 
-# Conexión Supabase
 pg8000
 gunicorn
