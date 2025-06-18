@@ -27,30 +27,26 @@
   color: white;
   width: 70px;
   transition: width 0.3s ease;
-  overflow: hidden;  /* 👈 Esto oculta el contenido excedente */
+  overflow: hidden;
   position: relative;
   white-space: nowrap;
 }
 
-    .sidebar:hover {
-      width: 220px;
-    }
+.sidebar:hover {
+  width: 220px;
+}
 
-    .sidebar .logo {
-      font-size: 1.2rem;
-      text-align: center;
-      padding: 1rem 0;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
+.sidebar .logo,
+.sidebar .nav-link span {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
-    .sidebar:hover .logo {
-      opacity: 1;
-    }
+.sidebar:hover .logo,
+.sidebar:hover .nav-link span {
+  opacity: 1;
+}
+
 
     .sidebar .nav-link {
       color: #adb5bd;
@@ -97,13 +93,7 @@
       width: 100%;
     }
 
-    .main-wrapper:hover .sidebar {
-  width: 220px;
-}
-
-.main-wrapper:hover .content {
-  margin-left: 220px;
-}
+ 
 
     /* Mobile */
     @media (max-width: 768px) {
