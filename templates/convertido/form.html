@@ -1,97 +1,118 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-4">
-    <h2>{{ 'Editar' if registro else 'Nuevo' }} Convertido</h2>
+  <h2>{{ 'Editar' if registro else 'Nuevo' }} Convertido</h2>
+  <div class="form-card">
     <form method="post">
-        <div class="row mb-3">
-            <div class="col">
-                <label>Nombres:</label>
-                <input type="text" name="nombres" class="form-control" value="{{ registro.nombres if registro else '' }}" required>
-            </div>
-            <div class="col">
-                <label>Apellidos:</label>
-                <input type="text" name="apellidos" class="form-control" value="{{ registro.apellidos if registro else '' }}" required>
-            </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="nombres" class="form-label">Nombres:</label>
+          <input type="text" id="nombres" name="nombres" class="form-control" 
+                 value="{{ registro.nombres if registro else '' }}" required>
         </div>
-        <div class="row mb-3">
-            <div class="col">
-                <label>Edad:</label>
-                <input type="number" name="edad" class="form-control" min="0" max="150" value="{{ registro.edad if registro else '' }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="contacto" class="form-label">Telefono:</label>
-                <input type="text" class="form-control" id="contacto" name="contacto" 
-                    value="{{ registro.contacto if registro else '' }}" 
-                    maxlength="9" oninput="formatearTelefono(this)" required>
-            </div>
-            <div class="col">
-                <label>Domicilio:</label>
-                <input type="text" name="domicilio" class="form-control" value="{{ registro.domicilio if registro else '' }}">
-            </div>
+        <div class="col-md-6">
+          <label for="apellidos" class="form-label">Apellidos:</label>
+          <input type="text" id="apellidos" name="apellidos" class="form-control" 
+                 value="{{ registro.apellidos if registro else '' }}" required>
         </div>
-        <div class="mb-3">
-    <label for="invito" class="form-label">Invitó:</label>
-    <input type="text" class="form-control" id="invito" name="invito"
-           value="{{ registro.invito if registro else '' }}">
-        </div>
-        <div class="row mb-3">
-            <div class="col">
-                <label>Tipo Validación:</label>
-                <select name="id_validacion" class="form-control" required>
-                    {% for val in tipo_validaciones %}
-                        <option value="{{ val.id }}" {% if registro and val.id == registro.id_validacion %}selected{% endif %}>{{ val.descripcion }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col">
-                <label>Lugar Conversión:</label>
-                <select name="id_lugar" class="form-control" required>
-                    {% for lugar in lugares_conversion %}
-                        <option value="{{ lugar.id }}" {% if registro and lugar.id == registro.id_lugar %}selected{% endif %}>{{ lugar.descripcion }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="mb-3">
-    <label for="fecha_conversion" class="form-label">Fecha Conversión:</label>
-    <input type="date" class="form-control" id="fecha_conversion" name="fecha_conversion" 
-           style="max-width: 250px;" 
-           value="{{ registro.fecha_conversion.strftime('%Y-%m-%d') if registro and registro.fecha_conversion else '' }}">
-</div>
-<div class="mb-3 form-check">
-    <input type="checkbox" id="usar_fecha_actual" name="usar_fecha_actual">
-    <label for="usar_fecha_actual">Usar fecha actual</label>
-</div>
+      </div>
 
+      <div class="row mb-3">
+        <div class="col-md-2">
+          <label for="edad" class="form-label">Edad:</label>
+          <input type="number" id="edad" name="edad" class="form-control form-control-sm" 
+                 min="0" max="150" maxlength="3" 
+                 oninput="if(this.value.length>3) this.value = this.value.slice(0,3);"
+                 value="{{ registro.edad if registro else '' }}" required>
+        </div>
+        <div class="col-md-4">
+          <label for="contacto" class="form-label">Teléfono:</label>
+          <input type="text" id="contacto" name="contacto" class="form-control" 
+                 maxlength="9" oninput="formatearTelefono(this)" 
+                 value="{{ registro.contacto if registro else '' }}" required>
+        </div>
+        <div class="col-md-6">
+          <label for="domicilio" class="form-label">Domicilio:</label>
+          <input type="text" id="domicilio" name="domicilio" class="form-control" 
+                 value="{{ registro.domicilio if registro else '' }}">
+        </div>
+      </div>
 
+      <div class="mb-3">
+        <label for="invito" class="form-label">Invitó:</label>
+        <input type="text" id="invito" name="invito" class="form-control" 
+               value="{{ registro.invito if registro else '' }}">
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="id_validacion" class="form-label">Tipo Validación:</label>
+          <select id="id_validacion" name="id_validacion" class="form-control" required>
+            {% for val in tipo_validaciones %}
+            <option value="{{ val.id }}" 
+                    {% if registro and val.id == registro.id_validacion %}selected{% endif %}>
+              {{ val.descripcion }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="id_lugar" class="form-label">Lugar Conversión:</label>
+          <select id="id_lugar" name="id_lugar" class="form-control" required>
+            {% for lugar in lugares_conversion %}
+            <option value="{{ lugar.id }}" 
+                    {% if registro and lugar.id == registro.id_lugar %}selected{% endif %}>
+              {{ lugar.descripcion }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="fecha_conversion" class="form-label">Fecha Conversión:</label>
+        <input type="date" id="fecha_conversion" name="fecha_conversion" class="form-control" 
+               style="max-width:250px;"
+               value="{{ registro.fecha_conversion.strftime('%Y-%m-%d') if registro and registro.fecha_conversion else '' }}">
+      </div>
+
+      <div class="mb-3 form-check">
+        <input type="checkbox" id="usar_fecha_actual" name="usar_fecha_actual" class="form-check-input">
+        <label for="usar_fecha_actual" class="form-check-label">Usar fecha actual</label>
+      </div>
+
+      <div class="d-flex gap-2">
         <button type="submit" class="btn btn-success">Guardar</button>
         <a href="{{ url_for('convertido.index') }}" class="btn btn-secondary">Cancelar</a>
+      </div>
     </form>
+  </div>
 </div>
+
 <script>
 function formatearTelefono(input) {
-    let value = input.value.replace(/[^0-9]/g, ''); // eliminamos todo lo que no es número
-    if (value.length > 4) {
-        input.value = value.substring(0, 4) + '-' + value.substring(4, 8);
-    } else {
-        input.value = value;
-    }
+  let value = input.value.replace(/[^0-9]/g, '');
+  if (value.length > 4) {
+    input.value = value.substring(0, 4) + '-' + value.substring(4, 8);
+  } else {
+    input.value = value;
+  }
 }
 </script>
-<script>
-    document.getElementById("usar_fecha_actual").addEventListener("change", function() {
-        const fechaInput = document.getElementById("fecha_conversion");
-        if (this.checked) {
-            const hoy = new Date();
-            const dia = ("0" + hoy.getDate()).slice(-2);
-            const mes = ("0" + (hoy.getMonth() + 1)).slice(-2);
-            const anio = hoy.getFullYear();
-            fechaInput.value = `${anio}-${mes}-${dia}`;
-        } else {
-            fechaInput.value = "";
-        }
-    });
-</script>
 
+<script>
+document.getElementById('usar_fecha_actual').addEventListener('change', function() {
+  const fechaInput = document.getElementById('fecha_conversion');
+  if (this.checked) {
+    const hoy = new Date();
+    const dia = ('0' + hoy.getDate()).slice(-2);
+    const mes = ('0' + (hoy.getMonth() + 1)).slice(-2);
+    const anio = hoy.getFullYear();
+    fechaInput.value = `${anio}-${mes}-${dia}`;
+  } else {
+    fechaInput.value = '';
+  }
+});
+</script>
 
 {% endblock %}
