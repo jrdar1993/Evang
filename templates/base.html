@@ -23,13 +23,14 @@
     }
 
     .sidebar {
-      background-color: #1e1e2f;
-      color: white;
-      width: 70px;
-      transition: width 0.3s ease;
-      overflow-x: hidden;
-      position: relative;
-    }
+  background-color: #1e1e2f;
+  color: white;
+  width: 70px;
+  transition: width 0.3s ease;
+  overflow: hidden;  /* 👈 Esto oculta el contenido excedente */
+  position: relative;
+  white-space: nowrap;
+}
 
     .sidebar:hover {
       width: 220px;
@@ -78,6 +79,16 @@
     .sidebar:hover .nav-link i {
       transform: scale(1.1);
     }
+
+    .sidebar .nav-link span {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.main-wrapper:hover .sidebar .nav-link span {
+  opacity: 1;
+}
+
 
     .content {
       margin-left: 70px;
@@ -135,6 +146,7 @@
     .navbar-toggler {
       border: none;
     }
+    
   </style>
 </head>
 <body>
