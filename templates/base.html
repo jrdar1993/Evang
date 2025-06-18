@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Panel de Administración</title>
 
   <!-- Bootstrap CSS -->
@@ -21,23 +21,22 @@
       min-height: 100vh;
     }
 
-    /* Sidebar base */
+    /* Sidebar base: collapsed */
     .sidebar {
       background-color: #1e1e2f;
       color: white;
       width: 70px;
       transition: width 0.3s ease;
       overflow: hidden;
-      position: relative;
       white-space: nowrap;
       flex-shrink: 0;
     }
-    /* Expanded state */
-    .sidebar.expanded {
+    /* Expand on hover */
+    .sidebar:hover {
       width: 220px;
     }
 
-    /* Logo/title */
+    /* Logo hidden until hover */
     .sidebar .logo {
       font-size: 1.2rem;
       text-align: center;
@@ -46,7 +45,7 @@
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-    .sidebar.expanded .logo {
+    .sidebar:hover .logo {
       opacity: 1;
     }
 
@@ -57,6 +56,7 @@
       display: flex;
       align-items: center;
       transition: background-color 0.2s, color 0.2s;
+      overflow: hidden;
     }
     .sidebar .nav-link:hover {
       background-color: #2c2c3f;
@@ -69,40 +69,41 @@
       text-align: center;
       transition: transform 0.2s;
     }
-    .sidebar.expanded .nav-link i {
+    .sidebar:hover .nav-link i {
       transform: scale(1.1);
     }
 
-    /* Link text hidden until expanded */
+    /* Link text hidden until hover */
     .sidebar .nav-link span {
       opacity: 0;
       transition: opacity 0.3s ease;
     }
-    .sidebar.expanded .nav-link span {
+    .sidebar:hover .nav-link span {
       opacity: 1;
     }
 
-    /* Content area */
+    /* Content shifts when sidebar hovered */
     .content {
       flex-grow: 1;
       padding: 1.5rem;
       margin-left: 70px;
       transition: margin-left 0.3s ease;
+      width: 100%;
     }
-    .sidebar.expanded ~ .content {
+    .sidebar:hover ~ .content {
       margin-left: 220px;
     }
 
-    /* Mobile behavior */
+    /* Mobile: toggle via JS */
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
         height: 100%;
         transform: translateX(-100%);
         width: 220px;
+        transition: transform 0.3s ease;
       }
-      .sidebar.active,
-      .sidebar.expanded {
+      .sidebar.active {
         transform: translateX(0);
       }
       .content {
@@ -121,7 +122,6 @@
       }
     }
 
-    /* Navbar toggle button */
     .navbar-toggler {
       border: none;
     }
@@ -129,7 +129,7 @@
 </head>
 <body>
 
-  <!-- Top navbar para móvil -->
+  <!-- Mobile navbar -->
   <nav class="navbar navbar-dark bg-dark d-md-none">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" id="menuToggle">
@@ -139,53 +139,40 @@
     </div>
   </nav>
 
-  <!-- Overlay para móvil -->
+  <!-- Overlay for mobile -->
   <div class="overlay" id="sidebarOverlay"></div>
 
   <div class="main-wrapper">
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-      <!-- Botón expandir/colapsar -->
-      <div class="d-flex justify-content-end pe-2">
-        <button class="btn btn-sm btn-link text-muted" id="expandToggle">
-          <i class="bi bi-list fs-4"></i>
-        </button>
-      </div>
       <div class="logo">Mi Panel</div>
       <a href="{{ url_for('home') }}" class="nav-link">
-        <i class="bi bi-house-door"></i><span>Inicio</span>
+        <i class="bi bi-house-door"></i> <span>Inicio</span>
       </a>
       <a href="{{ url_for('convertido.index') }}" class="nav-link">
-        <i class="bi bi-person-plus"></i><span>Convertido</span>
+        <i class="bi bi-person-plus"></i> <span>Convertido</span>
       </a>
-      <!-- Más enlaces... -->
+      <!-- additional links -->
     </div>
 
-    <!-- Contenido -->
+    <!-- Main content -->
     <div class="content">
       {% block content %}{% endblock %}
     </div>
   </div>
 
+  <!-- JS for mobile toggle -->
   <script>
-    const expandToggle = document.getElementById("expandToggle");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("sidebarOverlay");
-    const menuToggle = document.getElementById("menuToggle");
-
-    // Clic para expandir/colapsar en desktop
-    expandToggle.addEventListener("click", () => {
-      sidebar.classList.toggle("expanded");
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
     });
-
-    // Toggle para móvil
-    menuToggle?.addEventListener("click", () => {
-      sidebar.classList.add("active");
-      overlay.classList.add("active");
-    });
-    overlay?.addEventListener("click", () => {
-      sidebar.classList.remove("active");
-      overlay.classList.remove("active");
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
     });
   </script>
 
