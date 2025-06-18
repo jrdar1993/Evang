@@ -111,6 +111,23 @@
     .navbar-toggler {
       border: none;
     }
+    
+    /* Ajuste de contenido al expandir sidebar en escritorio */
+@media (min-width: 769px) {
+  .sidebar {
+    width: 70px;
+  }
+
+  .sidebar:hover ~ .content {
+    margin-left: 220px;
+  }
+
+  .content {
+    transition: margin-left 0.3s ease;
+    margin-left: 70px;
+  }
+}
+
   </style>
 </head>
 <body>
