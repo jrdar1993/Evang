@@ -21,7 +21,7 @@
       min-height: 100vh;
     }
 
-    /* Sidebar base: collapsed */
+    /* Sidebar collapsed base */
     .sidebar {
       background-color: #1e1e2f;
       color: white;
@@ -31,12 +31,12 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-    /* Expand on hover */
+    /* Expandir al hover */
     .sidebar:hover {
       width: 220px;
     }
 
-    /* Logo hidden until hover */
+    /* Logo oculto hasta hover */
     .sidebar .logo {
       font-size: 1.2rem;
       text-align: center;
@@ -49,7 +49,7 @@
       opacity: 1;
     }
 
-    /* Nav links */
+    /* Estilos nav links */
     .sidebar .nav-link {
       color: #adb5bd;
       padding: 12px 20px;
@@ -73,7 +73,7 @@
       transform: scale(1.1);
     }
 
-    /* Link text hidden until hover */
+    /* Texto oculto hasta hover */
     .sidebar .nav-link span {
       opacity: 0;
       transition: opacity 0.3s ease;
@@ -82,7 +82,7 @@
       opacity: 1;
     }
 
-    /* Content shifts when sidebar hovered */
+    /* Contenido se desplaza al hover */
     .content {
       flex-grow: 1;
       padding: 1.5rem;
@@ -94,7 +94,48 @@
       margin-left: 220px;
     }
 
-    /* Mobile: toggle via JS */
+    /* Estilos globales de tabla */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+    }
+    thead th {
+      background: transparent;
+      color: #495057;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+    }
+    tbody td {
+      background: #fff;
+      border: none;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      vertical-align: middle;
+      transition: background 0.2s;
+    }
+    /* Cambio de color de celda al hover */
+    tbody tr:hover td {
+      background: #e9ecef;
+    }
+
+    /* Iconos de acción con hover y tooltips */
+    .table-action i {
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #6c757d;
+      transition: color 0.2s;
+    }
+    .table-action i.edit:hover {
+      color: #0d6efd;
+    }
+    .table-action i.delete:hover {
+      color: #dc3545;
+    }
+
+    /* Móvil: toggle del sidebar */
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
@@ -129,7 +170,7 @@
 </head>
 <body>
 
-  <!-- Mobile navbar -->
+  <!-- Navbar móvil -->
   <nav class="navbar navbar-dark bg-dark d-md-none">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" id="menuToggle">
@@ -139,7 +180,7 @@
     </div>
   </nav>
 
-  <!-- Overlay for mobile -->
+  <!-- Overlay móvil -->
   <div class="overlay" id="sidebarOverlay"></div>
 
   <div class="main-wrapper">
@@ -152,16 +193,17 @@
       <a href="{{ url_for('convertido.index') }}" class="nav-link">
         <i class="bi bi-person-plus"></i> <span>Convertido</span>
       </a>
-      <!-- additional links -->
     </div>
 
-    <!-- Main content -->
+    <!-- Contenido principal -->
     <div class="content">
       {% block content %}{% endblock %}
     </div>
   </div>
 
-  <!-- JS for mobile toggle -->
+  <!-- Bootstrap JS Bundle y Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- JS toggle móvil y tooltips -->
   <script>
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
@@ -173,6 +215,12 @@
     overlay.addEventListener('click', () => {
       sidebar.classList.remove('active');
       overlay.classList.remove('active');
+    });
+
+    // Inicializar tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (el) {
+      return new bootstrap.Tooltip(el, { container: document.body });
     });
   </script>
 
