@@ -64,19 +64,20 @@
           <td>{{ reg.tipo_validacion.descripcion }}</td>
           <td>{{ reg.fecha_conversion.strftime('%d/%m/%Y') }}</td>
           <td class="table-action text-center">
-            <i class="bi bi-pencil-square me-3"
-               data-bs-toggle="tooltip" title="Editar"
-               onclick="location.href='{{ url_for('convertido.editar', id=reg.id) }}'"></i>
-            <i class="bi bi-trash-fill"
-               data-bs-toggle="tooltip" title="Eliminar"
-               onclick="if(confirm('¿Seguro que deseas eliminar?')) location.href='{{ url_for('convertido.eliminar', id=reg.id) }}';"></i>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
+          <i class="bi bi-pencil-square me-3"
+             data-bs-toggle="tooltip" title="Editar"
+             style="cursor: pointer;"
+             onclick="solicitarPasswordYRedirigir('editar', '{{ url_for('convertido.editar', id=reg.id) }}')"></i>
+          <i class="bi bi-trash-fill"
+             data-bs-toggle="tooltip" title="Eliminar"
+             style="cursor: pointer;"
+             onclick="if (confirm('¿Seguro que deseas eliminar?')) {solicitarPasswordYRedirigir('eliminar', '{{ url_for('convertido.eliminar', id=reg.id) }}');}"></i>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
   <!-- Paginación -->
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center flex-wrap">
@@ -124,3 +125,16 @@
   </nav>
 </div>
 {% endblock %}
+<script>
+  function solicitarPasswordYRedirigir(accion, url) {
+    const contraseñaCorrecta = "1234";  // Puedes cambiarla
+    const ingresada = prompt("Ingrese la contraseña para " + accion + ":");
+
+    if (ingresada === contraseñaCorrecta) {
+      location.href = url;
+    } else if (ingresada !== null) {
+      alert("Contraseña incorrecta.");
+    }
+  }
+</script>
+
