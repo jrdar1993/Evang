@@ -23,10 +23,11 @@
 /* Fijar el thead de la tabla para que también se quede arriba */
 .table-responsive thead th {
   position: sticky;
-  top: 0;
+  top: 160px;  /* Ajusta este valor a la altura de #cabecera-fija */
   background-color: white;
   z-index: 1020;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+  border: 2px solid red !important;
 }
     body {
       margin: 0;
