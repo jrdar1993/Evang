@@ -11,6 +11,23 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
+    #cabecera-fija {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background-color: #f8f9fa;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Fijar el thead de la tabla para que también se quede arriba */
+.table-responsive thead th {
+  position: sticky;
+  top: 140px; /* altura aproximada después del header/filtros */
+  background-color: white;
+  z-index: 1020;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
